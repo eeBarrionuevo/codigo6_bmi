@@ -11,10 +11,6 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   double height = 150.0;
   double weight = 60.0;
-  double bmi = 0;
-  String result = "x";
-  String recommendation = "-";
-  String image = "image1";
 
   BMIBrain mandarina = BMIBrain(height: 0, weight: 0);
 
@@ -158,24 +154,6 @@ class _HomePageState extends State<HomePage> {
                   onPressed: () {
                     mandarina.height = height;
                     mandarina.weight = weight;
-
-                    bmi = weight / pow((height / 100), 2);
-                    if (bmi < 18) {
-                      result = "Bajo peso";
-                      recommendation =
-                          "Debes de comer un poco más y hacer más ejercicio";
-                      image = "image1";
-                    } else if (bmi < 25) {
-                      result = "Normal";
-                      recommendation =
-                          "Todo está bien, pero no olvides hacer ejercicio";
-                      image = "image2";
-                    } else {
-                      result = "Sobrepeso";
-                      recommendation =
-                          "Debes de comer más sano y hacer más ejercicio";
-                      image = "image3";
-                    }
                     setState(() {});
                   },
                   child: Text(
@@ -213,7 +191,7 @@ class _HomePageState extends State<HomePage> {
                             ),
                           ),
                           Text(
-                            result,
+                            mandarina.getResult(),
                             style: TextStyle(
                               fontFamily: "Noto Sans",
                               fontSize: 18.0,
@@ -229,7 +207,7 @@ class _HomePageState extends State<HomePage> {
                             ),
                           ),
                           Text(
-                            recommendation,
+                            mandarina.getRecommendation(),
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontFamily: "Noto Sans",
@@ -240,7 +218,7 @@ class _HomePageState extends State<HomePage> {
                         ],
                       ),
                       Image.asset(
-                        "assets/images/$image.png",
+                        "assets/images/${mandarina.getImage()}.png",
                         height: 160.0,
                       ),
                     ],
