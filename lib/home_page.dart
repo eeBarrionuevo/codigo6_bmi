@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:codigo6_bmi/bmi_brain.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -13,6 +14,9 @@ class _HomePageState extends State<HomePage> {
   double bmi = 0;
   String result = "x";
   String recommendation = "-";
+  String image = "image1";
+
+  BMIBrain mandarina = BMIBrain(height: 0, weight: 0);
 
   @override
   Widget build(BuildContext context) {
@@ -152,19 +156,25 @@ class _HomePageState extends State<HomePage> {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
+                    mandarina.height = height;
+                    mandarina.weight = weight;
+
                     bmi = weight / pow((height / 100), 2);
                     if (bmi < 18) {
                       result = "Bajo peso";
                       recommendation =
                           "Debes de comer un poco más y hacer más ejercicio";
+                      image = "image1";
                     } else if (bmi < 25) {
                       result = "Normal";
                       recommendation =
                           "Todo está bien, pero no olvides hacer ejercicio";
+                      image = "image2";
                     } else {
                       result = "Sobrepeso";
                       recommendation =
                           "Debes de comer más sano y hacer más ejercicio";
+                      image = "image3";
                     }
                     setState(() {});
                   },
@@ -194,7 +204,7 @@ class _HomePageState extends State<HomePage> {
                             ),
                           ),
                           Text(
-                            bmi.toStringAsFixed(1),
+                            mandarina.bmiCalculator().toStringAsFixed(1),
                             style: TextStyle(
                               fontFamily: "Noto Sans",
                               fontSize: 36.0,
@@ -220,6 +230,7 @@ class _HomePageState extends State<HomePage> {
                           ),
                           Text(
                             recommendation,
+                            textAlign: TextAlign.center,
                             style: TextStyle(
                               fontFamily: "Noto Sans",
                               fontSize: 16.0,
@@ -229,7 +240,7 @@ class _HomePageState extends State<HomePage> {
                         ],
                       ),
                       Image.asset(
-                        "assets/images/image2.png",
+                        "assets/images/$image.png",
                         height: 160.0,
                       ),
                     ],
